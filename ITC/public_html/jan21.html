@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+   <title>ITC :: January, 2021</title>
+      <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+            <script src="js/jquery-1.9.1.min.js"></script>
+            <script src="js/jquery.min.js"></script>
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+          <style type="text/css">
+            .amt_val{
+                text-align: right;
+                width: 200px;
+            }  
+            @media print{
+                .page_break{
+                    page-break-after: always;
+                }
+            }
+        </style>
+        <script type="text/javascript">
+
+            /* ************************************ PRINT ************************************* */
+            function printTable(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
+                window.location.href = "jan21.html";
+            }
+            function reset() {
+                location.reload();
+            }
+            /* ************************************ PRINT ************************************* */
+
+            /* ************************************ CALCULATION ************************************* */
+            function calculate() {
+                /********************* INPUT VALUES ******************************/
+                var inpcntname = $("#inpcntname").val();
+                var inpcntemail = $("#inpcntemail").val();
+                var inpcntmobile = $("#inpcntmobile").val();
+                var inpcntgstin = $("#inpcntgstin").val();
+                var inpafigst = parseFloat($("#inpafigst").val());
+                var inpafcgst = parseFloat($("#inpafcgst").val());
+                var inpafsgst = parseFloat($("#inpafsgst").val());
+                var inpasigst = 0;
+                var inpascgst = 0;
+                var inpassgst = 0;
+                var inpatigst = 0;
+                var inpatcgst = 0;
+                var inpatsgst = 0;
+                var inpbigst = parseFloat($("#inpbigst").val());
+                var inpbcgst = parseFloat($("#inpbcgst").val());
+                var inpbsgst = parseFloat($("#inpbsgst").val());
+                var inpbnasigst = parseFloat($("#inpbnasigst").val());
+                var inpbnascgst = parseFloat($("#inpbnassgst").val());
+                var inpbnassgst = parseFloat($("#inpbnassgst").val());
+                var inpbinvigst = parseFloat($("#inpbinvigst").val());
+                var inpbinvcgst = parseFloat($("#inpbinvsgst").val());
+                var inpbinvsgst = parseFloat($("#inpbinvsgst").val());
+                var inpbocigst = parseFloat($("#inpbocigst").val());
+                var inpboccgst = parseFloat($("#inpboccgst").val());
+                var inpbocsgst = parseFloat($("#inpbocsgst").val());
+                var inpbaoigst = parseFloat($("#inpbaoigst").val());
+                var inpbaocgst = parseFloat($("#inpbaocgst").val());
+                var inpbaosgst = parseFloat($("#inpbaosgst").val());
+                var inpcfigst = parseFloat($("#inpcfigst").val());
+                var inpcfcgst = parseFloat($("#inpcfcgst").val());
+                var inpcfsgst = parseFloat($("#inpcfsgst").val());
+                var inpcsigst = 0;
+                var inpcscgst = 0;
+                var inpcssgst = 0;
+                var inpctigst = 0;
+                var inpctcgst = 0;
+                var inpctsgst = 0;
+                var inpdfigst = 0;
+                var inpdfcgst = 0;
+                var inpdfsgst = 0;
+                var inpdsigst = 0;
+                var inpdscgst = 0;
+                var inpdssgst = 0;
+                var inpaddimpigst = parseFloat($("#inpaddimpigst").val());
+                var inpaddimpcgst = parseFloat($("#inpaddimpcgst").val());
+                var inpaddimpsgst = parseFloat($("#inpaddimpsgst").val());
+                var inpaddrcmigst = parseFloat($("#inpaddrcmigst").val());
+                var inpaddrcmcgst = parseFloat($("#inpaddrcmcgst").val());
+                var inpaddrcmsgst = parseFloat($("#inpaddrcmsgst").val());
+                var inpaddisdigst = parseFloat($("#inpaddisdigst").val());
+                var inpaddisdcgst = parseFloat($("#inpaddisdcgst").val());
+                var inpaddisdsgst = parseFloat($("#inpaddisdsgst").val());
+                var inpadd_refligst = parseFloat($("#inpadd_refligst").val());
+                var inpadd_reflcgst = parseFloat($("#inpadd_reflcgst").val());
+                var inpadd_reflsgst = parseFloat($("#inpadd_reflsgst").val());
+                /********************* INPUT VALUES ******************************/
+
+                if ((inpcntname === "") || (inpcntemail === "") || (inpcntmobile === "")) {
+                    alert("Provide Name, Email and Mobile");
+                    $('#cntnameErr').text(inpcntname === "" ? "* Required" : "*");
+                    $('#cntnemailErr').text(inpcntemail === "" ? "* Required" : "*");
+                    $('#cntmobileErr').text(inpcntmobile === "" ? "* Required" : "*");
+                } else {
+                    var regexAlpNum = /^[a-z\d\-_\s]+$/i;
+                    var regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+                    if (!(inpcntname.match(regexAlpNum)))
+                    {
+                        alert("Name field has some error. Please fix it");
+                        $('#cntnameErr').text("* Only alphanumeric and space allowed");
+                    } else if (!(regexEmail.test(inpcntemail))) {
+                        alert("Email field has some error. Please fix it");
+                        $('#cntnemailErr').text("* Invalid mail id");
+                    } else if (inpcntmobile.length !== 10) {
+                        alert("Mobile field has some error. Please fix it");
+                        $('#cntmobileErr').text("* Mobile no must be 10 digits");
+                    } else {
+                        $("#print_select").css("display", "block");
+                        $("#inp_container").css("display", "none");
+                        /********************* CALCULATION ******************************/
+                        var atoigst = inpafigst + inpasigst + inpatigst;
+                        var atocgst = inpafcgst + inpascgst + inpatcgst;
+                        var atosgst = inpafsgst + inpassgst + inpatsgst;
+                        var bnatigst = inpbigst + inpbnasigst + inpbinvigst + inpbocigst + inpbaoigst;
+                        var bnatcgst = inpbcgst + inpbnascgst + inpbinvcgst + inpboccgst + inpbaocgst;
+                        var bnatsgst = inpbsgst + inpbnassgst + inpbinvsgst + inpbocsgst + inpbaosgst;
+                        var eamtigst = atoigst - bnatigst;
+                        var eamtcgst = atocgst - bnatcgst;
+                        var eamtsgst = atosgst - bnatsgst;
+                        var ctoigst = inpcfigst + inpcsigst + inpctigst;
+                        var ctocgst = inpcfcgst + inpcscgst + inpctcgst;
+                        var ctosgst = inpcfsgst + inpcssgst + inpctsgst;
+                        var diffigst = ctoigst - eamtigst;
+                        var diffcgst = ctocgst - eamtcgst;
+                        var diffsgst = ctosgst - eamtsgst;
+                        var diffpigst = (diffigst / eamtigst) * 100;
+                        var diffpcgst = (diffcgst / eamtcgst) * 100;
+                        var diffpsgst = (diffsgst / eamtsgst) * 100;
+                        var difftigst = eamtigst * 1.05;
+                        var difftcgst = eamtcgst * 1.05;
+                        var difftsgst = eamtsgst * 1.05;
+                        var dtigst = inpdfigst + inpdsigst;
+                        var dtcgst = inpdfcgst + inpdscgst;
+                        var dtsgst = inpdfsgst + inpdssgst;
+                        var eagstrigst = 0;
+                        var eagstrcgst = 0;
+                        var eagstrsgst = 0;
+                        var itoigst = 0;
+                        var itocgst = 0;
+                        var itosgst = 0;
+
+                        if (ctoigst >= difftigst) {
+                            itoigst = difftigst;
+                        } else {
+                            itoigst = ctoigst;
+                        }
+                        if (ctocgst >= difftcgst) {
+                            itocgst = difftcgst;
+                        } else {
+                            itocgst = ctocgst;
+                        }
+                        if (ctosgst >= difftsgst) {
+                            itosgst = difftsgst;
+                        } else {
+                            itosgst = ctosgst;
+                        }
+                        var actavtigst = itoigst - dtigst;
+                        var actavtcgst = itocgst - dtcgst;
+                        var actavtsgst = itosgst - dtsgst;
+                        var gstrtigst = actavtigst;
+                        var gstrtcgst = actavtcgst;
+                        var gstrtsgst = actavtsgst;
+                        var total_itcigst = gstrtigst + inpaddimpigst + inpaddrcmigst + inpaddisdigst + inpadd_refligst;
+                        var total_itccgst = gstrtcgst + inpaddimpcgst + inpaddrcmcgst + inpaddisdcgst + inpadd_reflcgst;
+                        var total_itcsgst = gstrtsgst + inpaddimpsgst + inpaddrcmsgst + inpaddisdsgst + inpadd_reflsgst;
+
+                        /********************* CALCULATION ******************************/
+
+                        /********************* SET VALUES ******************************/
+
+                        $("#contact_name").text(inpcntname);
+                        $("#contact_email").text(inpcntemail);
+                        $("#contact_mobile").text(inpcntmobile);
+                        $("#contact_gstin").text(inpcntgstin);
+                        $("#actavtigst").text(actavtigst.toFixed(2));
+                        $("#actavtcgst").text(actavtcgst.toFixed(2));
+                        $("#actavtsgst").text(actavtsgst.toFixed(2));
+                        $("#afigst").text(inpafigst.toFixed(2));
+                        $("#afcgst").text(inpafcgst.toFixed(2));
+                        $("#afsgst").text(inpafsgst.toFixed(2));
+                        $("#asigst").text(inpasigst.toFixed(2));
+                        $("#ascgst").text(inpascgst.toFixed(2));
+                        $("#assgst").text(inpassgst.toFixed(2));
+                        $("#atigst").text(inpatigst.toFixed(2));
+                        $("#atcgst").text(inpatcgst.toFixed(2));
+                        $("#atsgst").text(inpatsgst.toFixed(2));
+                        $("#atoigst").text(atoigst.toFixed(2));
+                        $("#atocgst").text(atocgst.toFixed(2));
+                        $("#atosgst").text(atosgst.toFixed(2));
+                        $("#bigst").text(inpbigst.toFixed(2));
+                        $("#bcgst").text(inpbcgst.toFixed(2));
+                        $("#bsgst").text(inpbsgst.toFixed(2));
+                        $("#bnasigst").text(inpbnasigst.toFixed(2));
+                        $("#bnascgst").text(inpbnascgst.toFixed(2));
+                        $("#bnassgst").text(inpbnassgst.toFixed(2));
+                        $("#binvigst").text(inpbinvigst.toFixed(2));
+                        $("#binvcgst").text(inpbinvcgst.toFixed(2));
+                        $("#binvsgst").text(inpbinvsgst.toFixed(2));
+                        $("#bocigst").text(inpbocigst.toFixed(2));
+                        $("#boccgst").text(inpboccgst.toFixed(2));
+                        $("#bocsgst").text(inpbocsgst.toFixed(2));
+                        $("#baoigst").text(inpbaoigst.toFixed(2));
+                        $("#baocgst").text(inpbaocgst.toFixed(2));
+                        $("#baosgst").text(inpbaosgst.toFixed(2));
+                        $("#bnatigst").text(bnatigst.toFixed(2));
+                        $("#bnatcgst").text(bnatcgst.toFixed(2));
+                        $("#bnatsgst").text(bnatsgst.toFixed(2));
+                        $("#eamtigst").text(eamtigst.toFixed(2));
+                        $("#eamtcgst").text(eamtcgst.toFixed(2));
+                        $("#eamtsgst").text(eamtsgst.toFixed(2));
+                        $("#cfigst").text(inpcfigst.toFixed(2));
+                        $("#cfcgst").text(inpcfcgst.toFixed(2));
+                        $("#cfsgst").text(inpcfsgst.toFixed(2));
+                        $("#csigst").text(inpcsigst.toFixed(2));
+                        $("#cscgst").text(inpcscgst.toFixed(2));
+                        $("#cssgst").text(inpcssgst.toFixed(2));
+                        $("#ctigst").text(inpctigst.toFixed(2));
+                        $("#ctcgst").text(inpctcgst.toFixed(2));
+                        $("#ctsgst").text(inpctsgst.toFixed(2));
+                        $("#ctoigst").text(ctoigst.toFixed(2));
+                        $("#ctocgst").text(ctocgst.toFixed(2));
+                        $("#ctosgst").text(ctosgst.toFixed(2));
+                        $("#diffigst").text(diffigst.toFixed(2));
+                        $("#diffcgst").text(diffcgst.toFixed(2));
+                        $("#diffsgst").text(diffsgst.toFixed(2));
+                        $("#diffpigst").text(diffpigst.toFixed(0));
+                        $("#diffpcgst").text(diffpcgst.toFixed(0));
+                        $("#diffpsgst").text(diffpsgst.toFixed(0));
+                        $("#difftigst").text(difftigst.toFixed(2));
+                        $("#difftcgst").text(difftcgst.toFixed(2));
+                        $("#difftsgst").text(difftsgst.toFixed(2));
+                        $("#dfigst").text(inpdfigst.toFixed(2));
+                        $("#dfcgst").text(inpdfcgst.toFixed(2));
+                        $("#dfsgst").text(inpdfsgst.toFixed(2));
+                        $("#dsigst").text(inpdsigst.toFixed(2));
+                        $("#dscgst").text(inpdscgst.toFixed(2));
+                        $("#dssgst").text(inpdssgst.toFixed(2));
+                        $("#dtigst").text(dtigst.toFixed(2));
+                        $("#dtcgst").text(dtcgst.toFixed(2));
+                        $("#dtsgst").text(dtsgst.toFixed(2));
+                        $("#eagstrigst").text(eagstrigst.toFixed(2));
+                        $("#eagstrcgst").text(eagstrcgst.toFixed(2));
+                        $("#eagstrsgst").text(eagstrsgst.toFixed(2));
+                        $("#aavigst").text(dtigst.toFixed(2));
+                        $("#aavcgst").text(dtcgst.toFixed(2));
+                        $("#aavsgst").text(dtsgst.toFixed(2));
+                        $("#gstrtigst").text(gstrtigst.toFixed(2));
+                        $("#gstrtcgst").text(gstrtcgst.toFixed(2));
+                        $("#gstrtsgst").text(gstrtsgst.toFixed(2));
+                        $("#itoigst").text(itoigst.toFixed(2));
+                        $("#itocgst").text(itocgst.toFixed(2));
+                        $("#itosgst").text(itosgst.toFixed(2));
+                        $("#addimpigst").text(inpaddimpigst.toFixed(2));
+                        $("#addimpcgst").text(inpaddimpcgst.toFixed(2));
+                        $("#addimpsgst").text(inpaddimpsgst.toFixed(2));
+                        $("#addrcmigst").text(inpaddrcmigst.toFixed(2));
+                        $("#addrcmcgst").text(inpaddrcmcgst.toFixed(2));
+                        $("#addrcmsgst").text(inpaddrcmsgst.toFixed(2));
+                        $("#addisdigst").text(inpaddisdigst.toFixed(2));
+                        $("#addisdcgst").text(inpaddisdcgst.toFixed(2));
+                        $("#addisdsgst").text(inpaddisdsgst.toFixed(2));
+                        $("#add_refligst").text(inpadd_refligst.toFixed(2));
+                        $("#add_reflcgst").text(inpadd_reflcgst.toFixed(2));
+                        $("#add_reflsgst").text(inpadd_reflsgst.toFixed(2));
+                        $("#total_itcigst").text(total_itcigst.toFixed(2));
+                        $("#total_itccgst").text(total_itccgst.toFixed(2));
+                        $("#total_itcsgst").text(total_itcsgst.toFixed(2));
+
+                        /********************* SET VALUES ******************************/
+
+                    }
+                }
+            }
+            /* ************************************ CALCULATION ************************************* */
+        </script>
+    </head>
+    <body>
+     <nav>
+            <ul class="content clearfix">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#">Month to month</a>
+                    <ul class="sub-menu">
+                        <li class="dropdown">
+                            <a href="#">2019</a>
+                            <ul class="sub-menu">
+                                <li><a href="oct19.html">OCT, 2019</a></li>
+                                <li><a href="nov19.html">NOV, 2019</a></li>
+                                <li><a href="dec19.html">DEC, 2019</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#">2020</a>
+                            <ul class="sub-menu">
+                                <li><a href="jan20.html">JAN, 2020</a></li>
+                                <li><a href="sep20.html">SEP, 2020</a></li>
+                                <li><a href="oct20.html">OCT, 2020</a></li>
+                                <li><a href="nov20.html">NOV, 2020</a></li>
+                                <li><a href="dec20.html">DEC, 2020</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#">2021</a>
+                            <ul class="sub-menu">
+                                <li><a href="jan21.html">JAN, 2021</a></li>
+                                <li><a href="feb21.html">FEB, 2021</a></li>
+                                <li><a href="mar21.html">MAR, 2021</a></li>
+                                <li><a href="jul21.html">JUL, 2021</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Cumulative</a>
+                    <ul class="sub-menu">
+                        <li><a href="feb20_aug_20.html">FEB, 2020 - AUG, 2020</a></li>
+                        <li><a href="apr21_jun21.html">APR, 2021 - JUN, 2021</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="container" id="inp_container"><br />
+            <center>
+                <img src="images/logo.jpg" alt="logo" style="width:180px;" /><br />
+            </center>
+            <center><b>January, 2021</b></center><br />
+            Dear All,<br/><br/>
+
+            As you are aware that Rule 36(4) restricts availment of Input Tax Credit beyond certain notified percentages of ITC reflected in Form GSTR 2A/2B for the relevant periods as per notifications issued.<br/><br/>
+
+            We have developed a tool with our Legal and Technical expertise to enable Tax Payers to Review, Reconcile and Ensure correctness of ITC availed for the Periods 2019-20, 2020-21 & 2021-22.<br/><br/>
+
+            Hope our initiative best serves your interest as Tax Payers, Professionals and various Other Stakeholders. We are open to receiving your suggestions and improvements.<br/><br/>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>SL NO.</th>
+                        <th>PERIOD FROM</th>
+                        <th>PERIOD TO</th>
+                        <th>RESTRICTION PERCENTAGE</th>
+                        <th>CALCULATION METHOD</th>
+                        <th>NOTIFICATION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. </td>
+                        <td>Oct-19</td>  
+                        <td>Dec-19</td>
+                        <td>20 %</td>
+                        <td>Month on Month</td>
+                        <td>49/2019 Central Tax dated 9-10-2019 </td>
+                    </tr>
+                    <tr>
+                        <td>2. </td>
+                        <td>Jan-20</td>  
+                        <td>Jan-20</td>
+                        <td>10 %</td>
+                        <td>Month on Month</td>
+                        <td rowspan="3" style="vertical-align: middle;">75/2019 Central tax dated 26-12-2019</td>
+                    </tr>
+                    <tr>
+                        <td>3. </td>
+                        <td>Feb-20</td>  
+                        <td>Aug-20</td>
+                        <td>10 %</td>
+                        <td>Cumulative, rectified during Aug-20</td>
+                    </tr>
+                    <tr>
+                        <td>4. </td>
+                        <td>Sep-20</td>  
+                        <td>Dec-20</td>
+                        <td>10 %</td>
+                        <td>Month on Month</td>
+                    </tr>
+                    <tr>
+                        <td>5. </td>
+                        <td>Jan-21</td>  
+                        <td>Mar-21</td>
+                        <td>5 %</td>
+                        <td>Month on Month</td>
+                        <td rowspan="3" style="vertical-align: middle;">94/2020 Central tax dated 22-12-2020</td>
+                    </tr>
+                    <tr>
+                        <td>6. </td>
+                        <td>Apr-21</td>  
+                        <td>Jun-21</td>
+                        <td>5 %</td>
+                        <td>Cumulative, rectified during June-2021</td>
+                    </tr>
+                    <tr>
+                        <td>7. </td>
+                        <td>Jul-21</td>  
+                        <td>Cont...</td>
+                        <td>5 %</td>
+                        <td>Month on Month</td>
+                    </tr>
+                </tbody>
+            </table>
+            <center>
+                <hr />
+                <h3>CONTACT</h3>
+                <center>
+                    <img src="images/indtax_logo.png" alt="logo" style="width:180px;" /><br /><br />
+                </center>
+                No 398, Dhanam Stores Upstairs, 64th Cross Street, New ASTC Hudco, Appavu Nagar, Hosur-635109, Tamilnadu, India.<br />
+                <b> +91 7708574660, +91 9994344008, +91 8940409884.</b>
+                <hr />
+                EMAIL<br />
+                <a href="mailto:indtaxseva@gmail.com">indtaxseva@gmail.com </a>||
+                <a href="mailto: indtaxhelpdesk@gmail.com"> indtaxhelpdesk@gmail.com </a>
+                <hr />
+                WEBSITE<br />
+                <a href="https://ind-tax.com/">https://ind-tax.com/</a> 
+            </center><br />
+            <table class="table table-striped">
+                <tr>
+                    <td> <b>Name :</b> <b class="text-danger" id="cntnameErr">*</b>
+                        <input type="text" placeholder="Only alphanumeric and white spaces" class="form-control" id="inpcntname" value="" required /><br /></td>
+                    <td> <b>Email : </b><b class="text-danger" id="cntnemailErr">*</b>
+                        <input type="email" placeholder="E.g.: abc@domain.com" class="form-control" id="inpcntemail" value="" required /><br /></td>
+                    <td><b>Mobile :</b> <b class="text-danger" id="cntmobileErr">*</b>
+                        <input type="text" maxlength="10" placeholder="Format : 9876543210" class="form-control amt_val" id="inpcntmobile" value="" required  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /><br /></td>
+                    <td><b>GSTIN :</b> <input type="text" placeholder="Any character" class="form-control" id="inpcntgstin" value="" /></td>
+                </tr>
+            </table>
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <table class="table table-striped">
+                            <tr>
+                                <th></th><th style="text-align: center;">IGST</th>
+                                <th style="text-align: center;">CGST</th>
+                                <th style="text-align: center;">SGST</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">AS PER GSTR-2A/2B (Including Credit/Debit note but Excluding Import/ISD and RCM) </th>
+                            </tr>
+                            <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">Month </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Jan-21
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpafigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpafcgst" value="0" onkeyup="document.getElementById('inpafsgst').value = this.value;" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpafsgst" value="0" readonly="readonly" />
+                                </td>
+                                  <td style="vertical-align: middle;">
+                                    <b>Source of Data From :</b> GST Portal- Login-Services- Returns-Tax liabilities and 
+                                    ITC comparison - Select Respective financial year - Search - Go to SL No 4. Input tax credit claimed 
+                                    and due (Other than import of goods)- Find ITC auto drafted in GSTR-2A/2B during the 
+                                    month value.
+                                </td>
+                            </tr>
+                            <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">Less-Not to be availed for the details in GSTR-2A/2B</th>
+                            </tr>
+                            <tr>
+                                <td><span id="bieg">Ineligible as per 17(5)</span></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbigst" value="0" /></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbcgst" value="0" onkeyup="document.getElementById('inpbsgst').value = this.value;"/></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbsgst" value="0" readonly="readonly" /></td>
+                                <td rowspan="5" style="vertical-align: middle;">
+                                    User Inputs as per Eligibility Conditions.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span id="bna">Not Accounted in purchase / Goods not received</span></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbnasigst" value="0" /></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbnascgst" value="0" onkeyup="document.getElementById('inpbnassgst').value = this.value;"/></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbnassgst" value="0" readonly="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><span id="binv">Invoices on which ITC already taken during previous months</span></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbinvigst" value="0" /></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbinvcgst" value="0" onkeyup="document.getElementById('inpbinvsgst').value = this.value;"/></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbinvsgst" value="0" readonly="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><span id="bocmonth">Other Cases (No such supplier)</span></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbocigst" value="0" /></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpboccgst" value="0" onkeyup="document.getElementById('inpbocsgst').value = this.value;"/></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbocsgst" value="0" readonly="readonly" /></td>
+                            </tr>
+                            <tr>
+                                <td><span id="baomonth">Any other</span></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbaoigst" value="0" /></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbaocgst" value="0" onkeyup="document.getElementById('inpbaosgst').value = this.value;"/></td>
+                                <td><input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpbaosgst" value="0" readonly="readonly" /></td>
+                            </tr>
+                            <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">ITC as per books of accounts (Only eligble amount as per Section 16 and 17(5)) </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Jan-21
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpcfigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpcfcgst" value="0" onkeyup="document.getElementById('inpcfsgst').value = this.value;"/>
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpcfsgst" value="0" readonly="readonly" />
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    This information has to filled from your financial accounting software.
+                                </td>
+                            </tr>
+
+                           <!-- <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">ITC already availed as per GSTR-3B</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Jan-21
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpdfigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpdfcgst" value="0" onkeyup="document.getElementById('inpdfsgst').value = this.value;"/>
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpdfsgst" value="0" readonly="readonly"/>
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <b>Source of Data From :</b> GST Portal- Login-Services- Returns-Tax liabilities and ITC 
+                                    comparison- FY 2021-22- Search- SL No 4. Input tax credit claimed and due (Other than import of goods)-
+                                    ITC claimed in GSTR-3B.
+                                </td>
+                            </tr>-->
+
+                            <tr style="background-color: #14a532; color: #FFFFFF;">
+                                <th colspan="5">ADDITIONS </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Add Import
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddimpigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="hidden" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddimpcgst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="hidden" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddimpsgst" value="0" />
+                                </td>
+                                  <td style="vertical-align: middle;">
+                                    <b>Source of Data From :</b> GST Portal- Login-Services- Returns-Tax liabilities and 
+                                    ITC comparison - Select Respective financial year - Search - Go to SL No 5. Input tax credit claimed 
+                                    and due (Import of goods)- Find ITC auto-drafted in GSTR-2A/2B during the month.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Add RCM
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddrcmigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddrcmcgst" value="0" onkeyup="document.getElementById('inpaddrcmsgst').value = this.value;"/>
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddrcmsgst" value="0" readonly="readonly"/>
+                                </td>
+                                 <td style="vertical-align: middle;">
+                                    <b>Source of Data From :</b> GST Portal- Login-Services- Returns-Tax liabilities and
+                                    ITC comparison - Select Respective FY -Search- Go to SL No. 2. Tax liability due to
+                                    reverse charge- Find Amount auto-drafted in PART-A of GSTR-2A& 2B during the month.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Add ISD
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddisdigst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddisdcgst" value="0" onkeyup="document.getElementById('inpaddisdsgst').value = this.value;"/>
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpaddisdsgst" value="0" readonly="readonly"/>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Reflected in 2A/AB previous month, now availed
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpadd_refligst" value="0" />
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpadd_reflcgst" value="0" onkeyup="document.getElementById('inpadd_reflsgst').value = this.value;"/>
+                                </td>
+                                <td>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" class="form-control amt_val" id="inpadd_reflsgst" value="0" readonly="readonly"/>
+                                </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+                        <button type="button" class="btn btn-primary" id="calculate" onclick="calculate();">
+                            Submit and Show</button>
+                        <button type="button" class="btn btn-info" id="rest_btn" onclick="reset();">
+                            Reset</button>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        <div id="print_select" class="container" style="display: none;">
+            <div id="printArea">
+                 <center>
+                    <b style="font-size: 16px;">
+                        ITC - JANUARY, 2021
+                    </b>  
+                </center>
+                <span style="font-size: 16px;">
+             Dear All,<br/><br/>
+
+                As you are aware that Rule 36(4) restricts availment of Input Tax Credit beyond certain notified percentages of ITC reflected in Form GSTR 2A/2B for the relevant periods as per notifications issued.<br/><br/>
+
+                We have developed a tool with our Legal and Technical expertise to enable Tax Payers to Review, Reconcile and Ensure correctness of ITC availed for the Periods 2019-20, 2020-21 & 2021-22.<br/><br/>
+
+                Hope our initiative best serves your interest as Tax Payers, Professionals and various Other Stake-holders. We are open to receiving your suggestions and improvements.<br/><br/>
+                </span>
+                <center>
+                    <hr />
+                    <center>
+                        <img src="images/indtax_logo.png" alt="logo" style="width:180px;" /><br /><br />
+                    </center>
+                    <h3>CONTACT</h3>
+                    No 398, Dhanam Stores Upstairs, 64th Cross Street, New ASTC Hudco, Appavu Nagar, Hosur-635109, Tamilnadu, India.<br />
+                    <b> +91 7708574660, +91 9994344008, +91 8940409884.</b>
+                    <hr />
+                    <h3>EMAIL</h3><br />
+                  indtaxseva@gmail.com || indtaxhelpdesk@gmail.com
+                    <hr />
+                    <h3>WEBSITE</h3><br />
+                    https://ind-tax.com/
+                </center><br /><br />
+                   <table class="table table-bordered">
+                    <tr>
+                        <th>Name </th>
+                        <th>Email-id </th>
+                        <th>Mobile </th>
+                        <th>GSTIN</th>
+                    </tr>
+                    <tr>
+                        <td id="contact_name"></td>
+                        <td id="contact_email"></td>
+                        <td id="contact_mobile"></td>
+                        <td id="contact_gstin"></td>
+                    </tr>
+                </table>
+                <div class="page_break"></div>
+                <table class="table table-bordered table-responsive table-striped">
+                    <tr>
+                        <th>&nbsp;</th> <th>IGST</th><th>CGST</th><th>SGST</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">AS PER GSTR-2A/2B (Including Credit/Debit note but Excluding Import/ISD and RCM) </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">MONTH</th>
+                    </tr>
+                    <tr>
+                        <td><span id="afmonth">Jan-21</span></td>
+                        <td><span id="afigst" style="float: right;"></span></td>
+                        <td><span id="afcgst" style="float: right;"></span></td>
+                        <td><span id="afsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <th><span id="atotal">TOTAL</span></th>
+                        <th><span id="atoigst" style="float: right;"></span></th>
+                        <th><span id="atocgst" style="float: right;"></span></th>
+                        <th><span id="atosgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Less-Not to be availed for the details in GSTR-2A/2B</th>
+                    </tr>
+                    <tr>
+                        <td><span id="bieg">Ineligible as per 17(5)</span></td>
+                        <td><span id="bigst" style="float: right;"></span></td>
+                        <td><span id="bcgst" style="float: right;"></span></td>
+                        <td><span id="bsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="bna">Not Accounted (Goods in transit)</span></td>
+                        <td><span id="bnasigst" style="float: right;"></span></td>
+                        <td><span id="bnascgst" style="float: right;"></span></td>
+                        <td><span id="bnassgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="binv">Invoices on which ITC already taken during previous months</span></td>
+                        <td><span id="binvigst" style="float: right;"></span></td>
+                        <td><span id="binvcgst" style="float: right;"></span></td>
+                        <td><span id="binvsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="bocmonth">No such supplier</span></td>
+                        <td><span id="bocigst" style="float: right;"></span></td>
+                        <td><span id="boccgst" style="float: right;"></span></td>
+                        <td><span id="bocsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="baomonth">Any other</span></td>
+                        <td><span id="baoigst" style="float: right;"></span></td>
+                        <td><span id="baocgst" style="float: right;"></span></td>
+                        <td><span id="baosgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <th><span id="bnatotal">TOTAL - Not to be availed</span></th>
+                        <th><span id="bnatigst" style="float: right;"></span></th>
+                        <th><span id="bnatcgst" style="float: right;"></span></th>
+                        <th><span id="bnatsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th><span id="eamt">Eligible amount after above</span></th>
+                        <th><span id="eamtigst" style="float: right;"></span></th>
+                        <th><span id="eamtcgst" style="float: right;"></span></th>
+                        <th><span id="eamtsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th><span id="total">Maximum Eligible ITC Credit @105%</span></th>
+                        <th><span id="difftigst" style="float: right;"></span></th>
+                        <th><span id="difftcgst" style="float: right;"></span></th>
+                        <th><span id="difftsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">ITC as per books of accounts (Only eligible amount as per Section 16 and 17(5))</th>
+                    </tr>
+                    <tr>
+                        <td><span id="cfmonth">Jan-21</span></td>
+                        <td><span id="cfigst" style="float: right;"></span></td>
+                        <td><span id="cfcgst" style="float: right;"></span></td>
+                        <td><span id="cfsgst" style="float: right;"></span></td>
+                    </tr>
+
+                    <tr>
+                        <th><span id="total">TOTAL</span></th>
+                        <th><span id="ctoigst" style="float: right;"></span></th>
+                        <th><span id="ctocgst" style="float: right;"></span></th>
+                        <th><span id="ctosgst" style="float: right;"></span></th>
+                    </tr>
+
+                    <tr>
+                        <th><span id="total">ITC to be taken on January-2021</span></th>
+                        <th><span id="itoigst" style="float: right;"></span></th>
+                        <th><span id="itocgst" style="float: right;"></span></th>
+                        <th><span id="itosgst" style="float: right;"></span></th>
+                    </tr>
+                  <!--  <tr>
+                        <th colspan="4">ITC already availed as per GSTR-3B</th>
+                    </tr>
+                    <tr>
+                        <td><span id="dfmonth">Jan-21</span></td>
+                        <td><span id="dfigst" style="float: right;"></span></td>
+                        <td><span id="dfcgst" style="float: right;"></span></td>
+                        <td><span id="dfsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <th><span id="total">TOTAL Already availed </span></th>
+                        <th><span id="dtigst" style="float: right;"></span></th>
+                        <th><span id="dtcgst" style="float: right;"></span></th>
+                        <th><span id="dtsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th><span id="total">Actual to be availed</span></th>
+                        <th><span id="actavtigst" style="float: right;"></span></th>
+                        <th><span id="actavtcgst" style="float: right;"></span></th>
+                        <th><span id="actavtsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">To be taken GSTR-3B in Table Others</th>
+                    </tr>-->
+                    <tr>
+                        <th><span id="total">To be taken  GSTR-3B in Table Others as per Rule 36(4) for January-2021</span></th>
+                        <th><span id="gstrtigst" style="float: right;"></span></th>
+                        <th><span id="gstrtcgst" style="float: right;"></span></th>
+                        <th><span id="gstrtsgst" style="float: right;"></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">ADDITIONS</th>
+                    </tr>
+                    <tr>
+                        <td><span id="addimp">Add Import</span></td>
+                        <td><span id="addimpigst" style="float: right;"></span></td>
+                        <td><span id="addimpcgst" style="float: right;"></span></td>
+                        <td><span id="addimpsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="addrcm">Add RCM</span></td>
+                        <td><span id="addrcmigst" style="float: right;"></span></td>
+                        <td><span id="addrcmcgst" style="float: right;"></span></td>
+                        <td><span id="addrcmsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="addisd">Add ISD</span></td>
+                        <td><span id="addisdigst" style="float: right;"></span></td>
+                        <td><span id="addisdcgst" style="float: right;"></span></td>
+                        <td><span id="addisdsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span id="add_refl">Reflected in 2A/AB previous month, now availed</span></td>
+                        <td><span id="add_refligst" style="float: right;"></span></td>
+                        <td><span id="add_reflcgst" style="float: right;"></span></td>
+                        <td><span id="add_reflsgst" style="float: right;"></span></td>
+                    </tr>
+                    <tr>
+                        <th><span id="total_itc">TOTAL ITC FOR JANUARY-2021</span></th>
+                        <th><span id="total_itcigst" style="float: right;"></span></th>
+                        <th><span id="total_itccgst" style="float: right;"></span></th>
+                        <th><span id="total_itcsgst" style="float: right;"></span></th>
+                    </tr>
+                </table><br/><br/>
+                <b style="font-size: 16px;">Disclaimer :-</b>
+
+The domain ind-tax.com is available as a service to our clients and others for informational purposes only. 
+The information provided on these websites is of general nature, and is current only up to its published date. 
+Although the accounting, tax, financial, and legal information has been checked with resources believed to be reliable, 
+some material may be affected by changes in law or in the interpretation of such laws. Further the end result of the product 
+is based on the accuracy of the inputs and its interpretation.<br/>
+In addition, you understand that the links from our websites to any third party does not constitute endorsement of, or warranty of any service, product or information provided on these sites.
+           
+            </div>
+            <button class="btn btn-warning" onclick="printTable('printArea');">Print</button>
+            <button class="btn btn-danger" onclick="window.location.href = 'jan21.html';">Back</button>
+        </div>
+         <script>
+            $(document).ready(function () {
+                $('.dropdown').hover(
+                        function () {
+                            $(this).children('.sub-menu').slideDown(200);
+                        },
+                        function () {
+                            $(this).children('.sub-menu').slideUp(200);
+                        }
+                );
+            }); // end ready
+        </script>
+    </body>
+</html>
